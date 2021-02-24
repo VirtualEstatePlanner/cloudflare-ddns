@@ -13,14 +13,23 @@ docker run \
   hugomd/cloudflare-ddns:2.0.0
 ```
 
-Example running as a persistant daemon:
+or add this to to your `docker-compose.yml` file
+
 ```
-docker run -d --restart always \
-  -e PROVIDER=cloudflare \
-  -e CLOUDFLARE_APITOKEN=YOUR_API_TOKEN \
-  -e CLOUDFLARE_ZONEID=YOUR_ZONE_ID \
-  -e CLOUDFLARE_HOST=YOUR_DOMAIN \
-  hugomd/cloudflare-ddns:2.0.0 -duration 2h
+# Begin dyndns Service Section
+
+ dyndns:
+  image: georgegeorgulasiv/cloudflare-dyndns:latest
+  environment:
+   - PROVIDER=cloudflare
+   - CLOUDFLARE_APITOKEN=
+   - CLOUDFLARE_ZONEID=
+   - CLOUDFLARE_HOST=
+  deploy:
+   restart_policy:
+    condition: on-failure
+
+# End dyndns Service Section 
 ```
 
 You can load environment variables through a config file of key/value pairs.
